@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Motivia - Asistente Farmacológico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                DEFAULT: '#C8D8FA', // Azul mucho más claro y luminoso para mejor contraste en Navbar
+                50: '#F4F7FD',
+                100: '#E1E9FB',
+                500: '#C8D8FA',
+                600: '#A9BDF6',
+                700: '#8FA6E6',
+              },
+              secondary: {
+                DEFAULT: '#F1F3FF', // Burbuja del Bot (Casi blanco azulado)
+                50: '#FFFFFF', 
+                100: '#F8Faff',
+                200: '#EBEFFF',
+              },
+              pagebg: {
+                DEFAULT: '#FAFBFF', // Fondo general actualizado
+              },
+              userbubble: {
+                DEFAULT: '#FFFFFF', // Burbuja del usuario (Blanco)
+              },
+              accent: {
+                DEFAULT: '#8055D4', // Púrpura (CTA Buttons)
+                500: '#8055D4',
+                600: '#6E45BC',
+                700: '#5D3AA5',
+              },
+              interactive: {
+                DEFAULT: '#5A6FD9', // Links y elementos suaves
+              },
+              highlight: {
+                DEFAULT: '#5A6FD9', // Lavanda profundo (Textos resaltados)
+              },
+              maintext: {
+                DEFAULT: '#2A2A2A', // Texto principal
+              },
+              bordercustom: {
+                DEFAULT: '#DDE3FF', // Bordes y divisores
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.5s ease-out',
+              'scale-up': 'scaleUp 0.3s ease-out',
+              'bounce': 'bounce 1s infinite',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0', transform: 'translateY(10px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              scaleUp: {
+                '0%': { opacity: '0', transform: 'scale(0.95)' },
+                '100%': { opacity: '1', transform: 'scale(1)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://image.pollinations.ai/prompt/App%20icon%20rounded%20square%20soft%20gradient%20background%20from%20%236A8EEA%20to%20%238055D4%20minimalist%20letter%20M%20stylized%20like%20brain%20neural%20pathways%20white%20lines%20soft%20shadows%20therapeutic%20psychological%20high%20clarity%20flat%20design%20subtle%20depth%20no%20text" />
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      /* Custom scrollbar for cleaner UI */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 3px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+    </style>
+
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-pagebg text-maintext h-screen overflow-hidden">
+    <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>

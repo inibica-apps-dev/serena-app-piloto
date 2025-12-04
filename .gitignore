@@ -1,0 +1,26 @@
+# Dependencias
+node_modules/
+
+# Archivos de build
+dist/
+.vite/
+
+# Ambiente local
+.env
+.env.local
+.env.development
+.env.production
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE configs
+.vscode/
+.idea/

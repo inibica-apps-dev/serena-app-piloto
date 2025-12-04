@@ -1,0 +1,8 @@
+{
+  "name": "Motivia - Asistente de Salud Mental",
+  "description": "Chatbot educativo especializado en psicofármacos y psicología clínica basada en evidencia, con capacidad de búsqueda de recursos multimedia.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
