@@ -193,7 +193,7 @@ useEffect(() => {
 
     try {
 const { text } = await sendMessage(messageToSend, false);
-      
+
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: Role.MODEL,
@@ -318,7 +318,7 @@ const { text } = await sendMessage(messageToSend, false);
                 </div>
 
                 <div className="w-20 h-20 mx-auto mb-4 rounded-2xl overflow-hidden bg-white border border-bordercustom shadow-sm p-2">
-                  <img src={LOGO_URL} alt="PsicoEdu Robot" className="w-full h-full object-cover rounded-xl" />
+                  <img src={LOGO_URL} alt="Serena Logo" className="w-full h-full object-cover rounded-xl" />
                 </div>
                 <h3 className="text-lg font-semibold text-maintext mb-2">Bienvenido a tu espacio educativo</h3>
                 <p className="text-slate-600 max-w-md mx-auto mb-6">
@@ -456,7 +456,7 @@ const { text } = await sendMessage(messageToSend, false);
                   ? 'text-red-500 animate-pulse' 
                   : 'text-primary hover:text-accent'
               }`}
-              title={isListening ? "Detener grabación" : "Hablar con Motivia"}
+              title={isListening ? "Detener grabación" : "Hablar con Serena"}
             >
               <MicIcon className="w-6 h-6" />
             </button>
@@ -481,7 +481,7 @@ const { text } = await sendMessage(messageToSend, false);
             </button>
           </div>
           <p className="text-center text-xs text-slate-400 mt-3">
-            Motivia utiliza IA y puede cometer errores. Verifica fuentes oficiales.
+            Serena utiliza IA y puede cometer errores. Verifica fuentes oficiales.
           </p>
         </div>
       </footer>
