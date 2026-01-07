@@ -59,16 +59,26 @@ export default async function handler(req: any, res: any) {
   try {
     const { message } = req.body;
 
+    if (!message) {
+      return res.status(400).json({ text: "Mensaje vacío" });
+    }
+
     const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" +
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=" +
         process.env.GEMINI_API_KEY,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           contents: [
-            { role: "system", parts: [{ text: SYSTEM_INSTRUCTION }] },
-            { role: "user", parts: [{ text: message }] },
+            {
+              role: "user",
+              parts: [
+                {
+                  text: `${SYSTEM_INSTRUCTION}\n\nPregunta del usuario:\n${message}`,
+                },
+              ],
+            },
           ],
         }),
       }
@@ -76,20 +86,20 @@ export default async function handler(req: any, res: any) {
 
     const data = await response.json();
 
-let text = "";
+    let text = "";
 
-if (data?.candidates?.length) {
-  const parts = data.candidates[0].content?.parts ?? [];
-  text = parts.map((p: any) => p.text).join("").trim();
-}
+    if (data?.candidates?.length) {
+      const parts = data.candidates[0].content?.parts ?? [];
+      text = parts.map((p: any) => p.text).join("").trim();
+    }
 
-if (!text) {
-  text = "No he podido generar una respuesta en este momento.";
-}
+    if (!text) {
+      text = "No he podido generar una respuesta en este momento.";
+    }
 
     return res.status(200).json({ text });
   } catch (error) {
-    console.error(error);
+    console.error("Gemini backend error:", error);
     return res.status(500).json({ text: "Error del servidor" });
   }
 }
