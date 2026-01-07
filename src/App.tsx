@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Message, Role, SpeechRecognition } from './types';
-import { sendMessageToGemini, initChatSession } from './services/geminiService';
+import { sendMessage } from './services/chatService';
 import { INITIAL_GREETING, APP_NAME, LOGO_URL } from './constants';
 import MessageBubble from './components/MessageBubble';
 import DisclaimerModal from './components/DisclaimerModal';
@@ -32,17 +32,15 @@ const App: React.FC = () => {
   const recognitionRef = useRef<SpeechRecognition | null>(null);
 
   // Initialize Chat Session
-  useEffect(() => {
-    initChatSession();
-    // Add initial greeting
-    const greeting: Message = {
-      id: 'init-1',
-      role: Role.MODEL,
-      content: INITIAL_GREETING,
-      timestamp: new Date(),
-    };
-    setMessages([greeting]);
-  }, []);
+useEffect(() => {
+  const greeting: Message = {
+    id: 'init-1',
+    role: Role.MODEL,
+    content: INITIAL_GREETING,
+    timestamp: new Date(),
+  };
+  setMessages([greeting]);
+}, []);
 
   // Initialize Speech Recognition
   useEffect(() => {
@@ -132,7 +130,6 @@ const App: React.FC = () => {
 
   const handleResetChat = useCallback(() => {
     // 1. Reset the API session (clears conversation history in backend wrapper)
-    initChatSession();
     stopSpeech(); // Stop any ongoing speech
     setIsWelcomeSpeaking(false);
     setIsQuickQueriesOpen(false); // Reset dropdown to closed
@@ -195,7 +192,7 @@ const App: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const { text } = await sendMessageToGemini(messageToSend, imageToSend);
+const { text } = await sendMessage(messageToSend, false);
       
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),

@@ -1,5 +1,3 @@
-
-
 export const APP_NAME = "Motivia";
 
 export const LOGO_URL = "https://image.pollinations.ai/prompt/App%20icon%20rounded%20square%20soft%20gradient%20background%20from%20%236A8EEA%20to%20%238055D4%20minimalist%20letter%20M%20stylized%20like%20brain%20neural%20pathways%20white%20lines%20soft%20shadows%20therapeutic%20psychological%20high%20clarity%20flat%20design%20subtle%20depth%20no%20text";
