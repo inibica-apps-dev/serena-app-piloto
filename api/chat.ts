@@ -1,6 +1,8 @@
-export const config = {
-  runtime: "nodejs",
-};
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+export const config = { runtime: "nodejs" };
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 const SYSTEM_INSTRUCTION = `
 Eres Serena, un asistente virtual avanzado y empático diseñado para ofrecer intervenciones educativas sobre salud mental y farmacología.
@@ -61,65 +63,28 @@ export default async function handler(req: any, res: any) {
   try {
     const { message } = req.body;
 
-    if (!message || typeof message !== "string") {
-      return res.status(400).json({ error: "Mensaje inválido" });
-    }
+    const model = genAI.getGenerativeModel({
+      model: "gemini-1.5-flash", // 👈 AQUÍ SÍ FUNCIONA
+      generationConfig: {
+        temperature: 0.3,
+        maxOutputTokens: 512,
+      },
+    });
 
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              role: "user",
-              parts: [
-                {
-                  text: `${SYSTEM_INSTRUCTION}\n\nUsuario: ${message}`,
-                },
-              ],
-            },
-          ],
-          generationConfig: {
-            temperature: 0.4,
-            maxOutputTokens: 900,
-          },
-        }),
-      }
-    );
+    const result = await model.generateContent({
+      systemInstruction: SYSTEM_INSTRUCTION,
+      contents: [
+        { role: "user", parts: [{ text: message }] },
+      ],
+    });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("Gemini API error:", errorText);
-      return res.status(500).json({
-        text:
-          "No he podido generar una respuesta en este momento. Por favor, inténtalo de nuevo más tarde.",
-      });
-    }
-
-    const data = await response.json();
-
-    let text = "";
-    const parts = data?.candidates?.[0]?.content?.parts ?? [];
-
-    for (const p of parts) {
-      if (p.text) text += p.text;
-    }
-
-    if (!text.trim()) {
-      text =
-        "No he podido generar una respuesta clara en este momento. Inténtalo de nuevo.";
-    }
+    const text = result.response.text();
 
     return res.status(200).json({ text });
-  } catch (error) {
-    console.error("Server error:", error);
+  } catch (err) {
+    console.error("Gemini error:", err);
     return res.status(500).json({
-      text:
-        "Ha ocurrido un error interno. Por favor, vuelve a intentarlo más tarde.",
+      text: "No he podido generar una respuesta en este momento.",
     });
   }
 }
