@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { SYSTEM_INSTRUCTION } from "../src/constants";
+import { SYSTEM_INSTRUCTION } from "../lib/systemPrompt";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
