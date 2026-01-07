@@ -227,8 +227,8 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, autoPlay, onPlay
   {isModel ? (
     <img
       src={LOGO_URL}
-      alt="PsicoEdu"
-      className="w-[130%] h-[130%] object-contain"
+      alt="Serena"
+      className="w-[160%] h-[160%] object-contain"
     />
   ) : (
     <UserIcon className="w-5 h-5" />
