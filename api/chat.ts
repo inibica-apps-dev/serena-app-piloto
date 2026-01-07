@@ -68,14 +68,16 @@ export default async function handler(req: any, res: any) {
         body: JSON.stringify({
           contents: [
             {
-              role: "user",
               parts: [
                 {
-                  text: `${SYSTEM_INSTRUCTION}\n\nUsuario: ${message}`,
-                },
-              ],
-            },
-          ],
+                  text: `${SYSTEM_INSTRUCTION}
+
+Usuario: ${message}
+`
+                }
+              ]
+            }
+          ]
         }),
       }
     );
@@ -87,8 +89,9 @@ export default async function handler(req: any, res: any) {
       "No he podido generar una respuesta.";
 
     return res.status(200).json({ text });
+
   } catch (err) {
     console.error("Gemini API error:", err);
-    return res.status(500).json({ text: "Error al generar respuesta" });
+    return res.status(500).json({ text: "Error del servidor" });
   }
 }
