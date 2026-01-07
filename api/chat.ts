@@ -63,12 +63,19 @@ export default async function handler(req: any, res: any) {
       return res.status(400).json({ text: "Mensaje vacío" });
     }
 
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY no definida");
+    }
+
     const response = await fetch(
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=" +
-        process.env.GEMINI_API_KEY,
+        apiKey,
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           contents: [
             {
@@ -98,8 +105,11 @@ export default async function handler(req: any, res: any) {
     }
 
     return res.status(200).json({ text });
+
   } catch (error) {
     console.error("Gemini backend error:", error);
-    return res.status(500).json({ text: "Error del servidor" });
+    return res.status(500).json({
+      text: "Error del servidor",
+    });
   }
 }
