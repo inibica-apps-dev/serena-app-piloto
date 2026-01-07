@@ -219,14 +219,21 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, autoPlay, onPlay
     <div className={`flex w-full ${isModel ? 'justify-start' : 'justify-end'} mb-6 animate-fade-in`}>
       <div className={`flex max-w-[95%] md:max-w-[85%] ${isModel ? 'flex-row' : 'flex-row-reverse'} gap-3`}>
         
-        {/* Avatar */}
-        <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center overflow-hidden shadow-sm border ${isModel ? 'bg-white border-bordercustom' : 'bg-accent border-accent text-white'}`}>
-          {isModel ? (
-             <img src={LOGO_URL} alt="PsicoEdu" className="w-full h-full object-cover" />
-          ) : (
-             <UserIcon className="w-5 h-5" />
-          )}
-        </div>
+{/* Avatar */}
+<div
+  className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center overflow-hidden shadow-sm border
+  ${isModel ? 'bg-primary border-primary/40' : 'bg-accent border-accent text-white'}`}
+>
+  {isModel ? (
+    <img
+      src={LOGO_URL}
+      alt="PsicoEdu"
+      className="w-[130%] h-[130%] object-contain"
+    />
+  ) : (
+    <UserIcon className="w-5 h-5" />
+  )}
+</div>
 
         {/* Content Wrapper */}
         <div className={`flex flex-col ${isModel ? 'items-start' : 'items-end'} w-full min-w-0`}>
