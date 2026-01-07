@@ -1,8 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
 export const config = { runtime: "nodejs" };
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 const SYSTEM_INSTRUCTION = `
 Eres Serena, un asistente virtual avanzado y empático diseñado para ofrecer intervenciones educativas sobre salud mental y farmacología.
@@ -63,28 +59,36 @@ export default async function handler(req: any, res: any) {
   try {
     const { message } = req.body;
 
-    const model = genAI.getGenerativeModel({
-      model: "gemini-1.0-pro",
-      generationConfig: {
-        temperature: 0.3,
-        maxOutputTokens: 512,
-      },
-    });
+    const response = await fetch(
+      "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=" +
+        process.env.GEMINI_API_KEY,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [
+            {
+              role: "user",
+              parts: [
+                {
+                  text: `${SYSTEM_INSTRUCTION}\n\nUsuario: ${message}`,
+                },
+              ],
+            },
+          ],
+        }),
+      }
+    );
 
-    const result = await model.generateContent({
-      systemInstruction: SYSTEM_INSTRUCTION,
-      contents: [
-        { role: "user", parts: [{ text: message }] },
-      ],
-    });
+    const data = await response.json();
 
-    const text = result.response.text();
+    const text =
+      data?.candidates?.[0]?.content?.parts?.[0]?.text ??
+      "No he podido generar una respuesta.";
 
     return res.status(200).json({ text });
   } catch (err) {
-    console.error("Gemini error:", err);
-    return res.status(500).json({
-      text: "No he podido generar una respuesta en este momento.",
-    });
+    console.error("Gemini API error:", err);
+    return res.status(500).json({ text: "Error al generar respuesta" });
   }
 }
