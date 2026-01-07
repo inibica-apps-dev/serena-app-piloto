@@ -1,10 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
-export const config = {
-  runtime: "nodejs",
-};
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+export const config = { runtime: "nodejs" };
 
 const SYSTEM_INSTRUCTION = `
 Eres Serena, un asistente virtual avanzado y empático diseñado para ofrecer intervenciones educativas sobre salud mental y farmacología.
@@ -63,47 +57,32 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
-    const { message, deepMode = false } = req.body;
+    const { message } = req.body;
 
-    if (!message) {
-      return res.status(400).json({ error: "Mensaje vacío" });
-    }
+    const response = await fetch(
+      "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=" +
+        process.env.GEMINI_API_KEY,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [
+            { role: "system", parts: [{ text: SYSTEM_INSTRUCTION }] },
+            { role: "user", parts: [{ text: message }] },
+          ],
+        }),
+      }
+    );
 
-    const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
-      generationConfig: {
-        maxOutputTokens: deepMode ? 380 : 220,
-        temperature: 0.3,
-      },
-    });
+    const data = await response.json();
 
-    const first = await model.generateContent({
-      systemInstruction: SYSTEM_INSTRUCTION,
-      contents: [{ role: "user", parts: [{ text: message }] }],
-    });
-
-    let text = first.response.text() ?? "";
-
-    if (deepMode) {
-      const continuation = await model.generateContent({
-        contents: [
-          { role: "user", parts: [{ text }] },
-          {
-            role: "user",
-            parts: [{ text: "Continúa la explicación anterior en profundidad." }],
-          },
-        ],
-      });
-
-      text += "\n\n" + (continuation.response.text() ?? "");
-    }
+    const text =
+      data?.candidates?.[0]?.content?.parts?.[0]?.text ??
+      "No he podido generar una respuesta.";
 
     return res.status(200).json({ text });
   } catch (error) {
-    console.error("Backend Gemini error:", error);
-    return res.status(500).json({
-      text:
-        "Ahora mismo no puedo responder a esta consulta con seguridad. Consulta con tu profesional sanitario 🌱",
-    });
+    console.error(error);
+    return res.status(500).json({ text: "Error del servidor" });
   }
 }
