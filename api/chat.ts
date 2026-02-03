@@ -89,10 +89,14 @@ export default async function handler(req: any, res: any) {
       "No he podido generar una respuesta.";
 
     return res.status(200).json({ text });
-  } catch (error: any) {
-    console.error("❌ OpenAI error:", error);
-    return res.status(500).json({
-      text: "Error técnico al generar la respuesta.",
-    });
-  }
+} catch (error: any) {
+  console.error("❌ OPENAI ERROR COMPLETO:", error);
+
+  return res.status(500).json({
+    text:
+      error?.message ||
+      error?.error?.message ||
+      "Error desconocido en backend",
+  });
+}
 }
