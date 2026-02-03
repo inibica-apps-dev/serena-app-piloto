@@ -78,7 +78,7 @@ export default async function handler(req: any, res: any) {
 
     // 👉 USAMOS CHAT COMPLETIONS (NO responses)
     const completion = await client.chat.completions.create({
-      model: "llama3-8b-8192", // 🟢 MODELO GROQ
+      model: "llama-3.1-8b-instant",
       messages: [
         { role: "system", content: SYSTEM_INSTRUCTION },
         { role: "user", content: message },
