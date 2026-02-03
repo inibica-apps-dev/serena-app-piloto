@@ -61,42 +61,41 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
-    // 🔧 NORMALIZACIÓN DEL BODY (CLAVE)
     const body =
       typeof req.body === "string"
         ? JSON.parse(req.body)
         : req.body;
 
-    const { message, deepMode } = body || {};
+    const { message } = body || {};
 
     if (!message || typeof message !== "string") {
       return res.status(400).json({ text: "Mensaje vacío o inválido" });
     }
 
-    // 🔁 Llamada estable al endpoint legacy compatible
-    const completion = await client.chat.completions.create({
+    const response = await client.responses.create({
       model: "gpt-4o-mini",
-      messages: [
+      input: [
         { role: "system", content: SYSTEM_INSTRUCTION },
         { role: "user", content: message },
       ],
       temperature: 0.3,
-      max_tokens: 500,
+      max_output_tokens: 500,
     });
 
     const text =
-      completion.choices?.[0]?.message?.content ??
+      response.output_text ??
       "No he podido generar una respuesta.";
 
     return res.status(200).json({ text });
-} catch (error: any) {
-  console.error("❌ OPENAI ERROR COMPLETO:", error);
 
-  return res.status(500).json({
-    text:
-      error?.message ||
-      error?.error?.message ||
-      "Error desconocido en backend",
-  });
-}
+  } catch (error: any) {
+    console.error("❌ OPENAI ERROR:", error);
+
+    return res.status(500).json({
+      text:
+        error?.message ||
+        error?.error?.message ||
+        "Error desconocido en backend",
+    });
+  }
 }

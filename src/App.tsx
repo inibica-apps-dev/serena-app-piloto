@@ -191,29 +191,33 @@ useEffect(() => {
     setSelectedImage(null);
     setIsLoading(true);
 
-    try {
-const { text } = await sendMessage(messageToSend, false);
+try {
+  const { text } = await sendMessage(messageToSend, false);
 
-      const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: Role.MODEL,
-        content: text,
-        timestamp: new Date()
-      };
-      
-      setMessages((prev) => [...prev, botMessage]);
-    } catch (error) {
-      const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: Role.MODEL,
-        content: "Lo siento, hubo un problema al conectar con el servicio. Por favor intenta de nuevo.",
-        timestamp: new Date(),
-        isError: true,
-      };
-      setMessages((prev) => [...prev, errorMessage]);
-    } finally {
-      setIsLoading(false);
-    }
+  const botMessage: Message = {
+    id: (Date.now() + 1).toString(),
+    role: Role.MODEL,
+    content: text,
+    timestamp: new Date()
+  };
+
+  setMessages((prev) => [...prev, botMessage]);
+
+} catch (error: any) {
+  const errorMessage: Message = {
+    id: (Date.now() + 1).toString(),
+    role: Role.MODEL,
+    content: error?.message || "Error desconocido en frontend",
+    timestamp: new Date(),
+    isError: true,
+  };
+
+  setMessages((prev) => [...prev, errorMessage]);
+
+} finally {
+  setIsLoading(false);
+}
+
   }, [inputText, isLoading, selectedImage]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
