@@ -84,7 +84,7 @@ export default async function handler(req: any, res: any) {
         { role: "user", content: message },
       ],
       temperature: 0.3,
-      max_tokens: 500,
+      max_tokens: 1200,
     });
 
     const text =
