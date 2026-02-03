@@ -1,7 +1,11 @@
 import OpenAI from "openai";
 
+/**
+ * Cliente OpenAI-compatible apuntando a Groq
+ */
 const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.GROQ_API_KEY, // 👈 CLAVE DE GROQ
+  baseURL: "https://api.groq.com/openai/v1",
 });
 
 const SYSTEM_INSTRUCTION = `
@@ -72,24 +76,25 @@ export default async function handler(req: any, res: any) {
       return res.status(400).json({ text: "Mensaje vacío o inválido" });
     }
 
-    const response = await client.responses.create({
-      model: "gpt-4o-mini",
-      input: [
+    // 👉 USAMOS CHAT COMPLETIONS (NO responses)
+    const completion = await client.chat.completions.create({
+      model: "llama3-8b-8192", // 🟢 MODELO GROQ
+      messages: [
         { role: "system", content: SYSTEM_INSTRUCTION },
         { role: "user", content: message },
       ],
       temperature: 0.3,
-      max_output_tokens: 500,
+      max_tokens: 500,
     });
 
     const text =
-      response.output_text ??
+      completion.choices?.[0]?.message?.content ??
       "No he podido generar una respuesta.";
 
     return res.status(200).json({ text });
 
   } catch (error: any) {
-    console.error("❌ OPENAI ERROR:", error);
+    console.error("❌ GROQ ERROR:", error);
 
     return res.status(500).json({
       text:
