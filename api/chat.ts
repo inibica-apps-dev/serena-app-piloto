@@ -70,7 +70,7 @@ export default async function handler(req: any, res: any) {
     }
 
     const completion = await client.chat.completions.create({
-      model: "gpt-4o-mini", // rápido, barato y muy estable
+      model: "gpt-3.5-turbo",
       messages: [
         { role: "system", content: SYSTEM_INSTRUCTION },
         { role: "user", content: message }
