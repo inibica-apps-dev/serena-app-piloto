@@ -1,10 +1,16 @@
+export interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
+}
+
 interface ChatResponse {
   text: string;
 }
 
 export const sendMessage = async (
   message: string,
-  deepMode: boolean = false
+  deepMode: boolean = false,
+  history: ChatMessage[] = []
 ): Promise<ChatResponse> => {
   const response = await fetch("/api/chat", {
     method: "POST",
@@ -14,6 +20,7 @@ export const sendMessage = async (
     body: JSON.stringify({
       message,
       deepMode,
+      history,
     }),
   });
 

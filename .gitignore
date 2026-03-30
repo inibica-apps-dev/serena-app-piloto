@@ -24,3 +24,4 @@ pnpm-debug.log*
 # IDE configs
 .vscode/
 .idea/
+.vercel
