@@ -217,7 +217,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, autoPlay, onPlay
 
   return (
     <div className={`flex w-full ${isModel ? 'justify-start' : 'justify-end'} mb-6 animate-fade-in`}>
-      <div className={`flex max-w-[95%] md:max-w-[85%] ${isModel ? 'flex-row' : 'flex-row-reverse'} gap-3`}>
+      <div className={`flex max-w-[98%] sm:max-w-[95%] md:max-w-[85%] ${isModel ? 'flex-row' : 'flex-row-reverse'} gap-2 sm:gap-3`}>
         
 {/* Avatar */}
 <div
@@ -239,7 +239,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, autoPlay, onPlay
         <div className={`flex flex-col ${isModel ? 'items-start' : 'items-end'} w-full min-w-0`}>
           
           {/* Main Bubble */}
-          <div className={`p-4 rounded-2xl shadow-sm text-sm md:text-base leading-relaxed overflow-hidden w-full relative group border border-bordercustom ${
+          <div className={`p-3 sm:p-4 rounded-2xl shadow-sm text-[13px] sm:text-sm md:text-base leading-relaxed overflow-hidden w-full relative group border border-bordercustom ${
             isModel 
               ? 'bg-secondary text-maintext rounded-tl-none' // Soft Blue/Grey
               : 'bg-userbubble text-maintext rounded-tr-none' // White (User)

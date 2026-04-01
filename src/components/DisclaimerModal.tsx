@@ -66,14 +66,14 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ onAccept }) => {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div className="bg-white rounded-lg shadow-2xl max-w-lg w-full overflow-hidden animate-scale-up">
-        <div className="bg-pagebg p-4 border-b border-bordercustom flex items-center justify-between gap-3">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-4 overflow-y-auto">
+      <div className="bg-white rounded-lg shadow-2xl max-w-md sm:max-w-lg w-full max-h-[90vh] overflow-y-auto animate-scale-up">
+        <div className="bg-pagebg p-3 sm:p-4 border-b border-bordercustom flex items-center justify-between gap-2 sm:gap-3">
           <div className="flex items-center gap-3">
             <div className="bg-white p-2 rounded-full text-primary border border-bordercustom">
               <AlertIcon className="w-6 h-6" />
             </div>
-            <h2 className="text-lg font-bold text-maintext">
+            <h2 className="text-base sm:text-lg font-bold text-maintext">
               {step === 1 ? 'Aviso importante' : 'Aviso importante'}
             </h2>
           </div>
@@ -95,7 +95,7 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ onAccept }) => {
           </button>
         </div>
 
-        <div className="p-6 text-maintext text-sm leading-relaxed space-y-4">
+        <div className="p-4 sm:p-6 text-maintext text-xs sm:text-sm leading-relaxed space-y-3 sm:space-y-4">
           {step === 1 ? (
             <>
               <p className="text-justify">
@@ -105,7 +105,7 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ onAccept }) => {
                 Antes de empezar, queremos compartir contigo algunos aspectos importantes:
               </p>
 
-              <div className="p-4 bg-pagebg rounded-md border border-bordercustom text-slate-600 text-justify">
+              <div className="p-3 sm:p-4 bg-pagebg rounded-md border border-bordercustom text-slate-600 text-justify text-xs sm:text-sm">
                 <p><b>Serena es una herramienta de apoyo educativo.</b></p>
                 <p>Su objetivo es ayudarte a comprender mejor el uso de los medicamentos, los hábitos de salud y las opciones de cuidado, para que puedas tomar decisiones informadas.</p>
                 <p>No sustituye la valoración individual de profesionales sanitarios.</p>
@@ -142,7 +142,7 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ onAccept }) => {
           {step === 1 ? (
             <button
               onClick={handleNextStep}
-              className="bg-accent hover:bg-accent-600 text-white px-6 py-2.5 rounded-lg font-medium transition-colors shadow-md"
+              className="bg-accent hover:bg-accent-600 text-white px-4 sm:px-6 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg font-medium transition-colors shadow-md"
             >
               👉 He leído la información y quiero continuar
             </button>
@@ -150,7 +150,7 @@ const DisclaimerModal: React.FC<DisclaimerModalProps> = ({ onAccept }) => {
             <>
               <button
                 onClick={handleFinish}
-                className="bg-accent hover:bg-accent-600 text-white px-6 py-2.5 rounded-lg font-medium transition-colors shadow-md"
+                className="bg-accent hover:bg-accent-600 text-white px-4 sm:px-6 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg font-medium transition-colors shadow-md"
               >
                 Tu equipo de salud sigue siendo tu referencia principal
               </button>

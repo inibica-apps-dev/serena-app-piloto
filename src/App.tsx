@@ -149,6 +149,14 @@ const App: React.FC = () => {
     scrollToBottom();
   }, [messages, isLoading, selectedImage]);
 
+useEffect(() => {
+  const textareas = document.querySelectorAll("textarea");
+  textareas.forEach((textarea) => {
+    textarea.style.height = "auto";
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  });
+}, [inputText]);
+
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -267,7 +275,7 @@ const App: React.FC = () => {
       setIsWelcomeSpeaking(false);
     } else {
       const welcomeText =
-        "Bienvenido a tu espacio educativo. Consulta sobre psicofármacos, temas de psicología, o pídeme videos de relajación y respiración. Recuerda consultar siempre a tu médico.";
+        "Bienvenida/o a tu espacio educativo. Recuerda consultar siempre con el equipo de salud.";
       speakText(
         welcomeText,
         () => setIsWelcomeSpeaking(true),
@@ -379,9 +387,9 @@ const App: React.FC = () => {
         <VideoModal videoId={activeVideoId} onClose={() => setActiveVideoId(null)} />
       )}
 
-      <header className="bg-primary border-b border-primary-700/10 px-6 py-4 flex items-center justify-between shadow-md z-10">
+      <header className="bg-primary border-b border-primary-700/10 px-3 py-3 sm:px-6 sm:py-4 flex items-center justify-between shadow-md z-10">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-lg overflow-hidden bg-white/20 border border-white/30 shadow-sm backdrop-blur-sm">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg overflow-hidden bg-white/20 border border-white/30 shadow-sm backdrop-blur-sm">
             <img
               src={LOGO_URL}
               alt={`${APP_NAME} Logo`}
@@ -401,7 +409,7 @@ const App: React.FC = () => {
         <div className="flex items-center gap-2 sm:gap-3">
           <button
             onClick={() => setIsHistoryOpen((prev) => !prev)}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold border transition-all bg-white shadow-sm text-gray-500 border-gray-200 hover:bg-gray-50"
+            className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-bold border transition-all bg-white shadow-sm text-gray-500 border-gray-200 hover:bg-gray-50"
             title="Mostrar historial"
           >
             <span className="hidden md:inline">Historial</span>
@@ -493,57 +501,53 @@ const App: React.FC = () => {
       )}
 
       <main
-        className={`flex-1 overflow-y-auto p-4 md:p-6 custom-scrollbar transition-opacity duration-500 bg-pagebg ${
+        className={`flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 custom-scrollbar transition-opacity duration-500 bg-pagebg ${
           !hasAcceptedDisclaimer ? "opacity-0" : "opacity-100"
         }`}
       >
         <div className="max-w-4xl mx-auto flex flex-col min-h-full justify-end">
           {messages.length < 2 && (
             <div className="mb-8 animate-fade-in">
-              <div className="relative text-center p-8 bg-white/80 backdrop-blur rounded-2xl border border-bordercustom shadow-sm mb-4 group">
-                <div className="absolute top-4 right-4">
+              <div className="relative text-center p-5 sm:p-8 bg-white/80 backdrop-blur rounded-2xl border border-bordercustom shadow-sm mb-4 group">
+                <div className="absolute top-3 right-3 sm:top-4 sm:right-4">
                   <button
                     onClick={handleWelcomeSpeak}
-                    className={`p-2 rounded-full transition-colors shadow-sm border ${
+                    className={`p-1.5 sm:p-2 rounded-full transition-colors shadow-sm border ${
                       isWelcomeSpeaking
                         ? "bg-primary text-white border-primary"
                         : "bg-white border-bordercustom text-slate-400 hover:text-primary"
                     }`}
                     title="Escuchar bienvenida"
                   >
-                    {isWelcomeSpeaking ? (
-                      <StopIcon className="w-4 h-4" />
-                    ) : (
-                      <SpeakerIcon className="w-4 h-4" />
-                    )}
+{isWelcomeSpeaking ? (
+  <StopIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+) : (
+  <SpeakerIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+)}
                   </button>
                 </div>
 
-                <div className="w-20 h-20 mx-auto mb-4 rounded-2xl overflow-hidden bg-white border border-bordercustom shadow-sm p-2">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-3 sm:mb-4 rounded-2xl overflow-hidden bg-white border border-bordercustom shadow-sm p-2">
                   <img
                     src={LOGO_URL}
                     alt="Serena Logo"
                     className="w-full h-full object-cover rounded-xl"
                   />
                 </div>
-                <h3 className="text-lg font-semibold text-maintext mb-2">
-                  Bienvenido a tu espacio educativo
+                <h3 className="text-base sm:text-lg font-semibold text-maintext mb-2">
+                  Bienvenida/o a tu espacio educativo
                 </h3>
-                <p className="text-slate-600 max-w-md mx-auto mb-6">
-                  Consulta sobre psicofármacos, temas de psicología, o pídeme videos
-                  de relajación y respiración.
-                </p>
-                <div className="inline-block px-3 py-1 bg-highlight/10 text-highlight text-xs font-semibold rounded-full border border-highlight/20">
-                  Recuerda consultar siempre a tu médico
+                <div className="inline-block px-2.5 sm:px-3 py-1 bg-highlight/10 text-highlight text-[11px] sm:text-xs font-semibold rounded-full border border-highlight/20 leading-snug">
+                  Recuerda consultar siempre con el equipo de salud
                 </div>
               </div>
 
               <div className="max-w-3xl mx-auto">
                 <button
                   onClick={() => setIsQuickQueriesOpen(!isQuickQueriesOpen)}
-                  className="w-full flex items-center justify-between p-4 bg-white border border-bordercustom hover:border-primary/50 rounded-xl transition-all shadow-sm group mb-2"
+                  className="w-full flex items-center justify-between p-3 sm:p-4 bg-white border border-bordercustom hover:border-primary/50 rounded-xl transition-all shadow-sm group mb-2"
                 >
-                  <span className="text-sm font-semibold text-primary group-hover:text-primary-700">
+                  <span className="text-xs sm:text-sm font-semibold text-primary group-hover:text-primary-700">
                     Algunas consultas rápidas comunes...
                   </span>
                   <div
@@ -551,22 +555,22 @@ const App: React.FC = () => {
                       isQuickQueriesOpen ? "rotate-180" : ""
                     }`}
                   >
-                    <ChevronDownIcon className="w-5 h-5" />
+                    <ChevronDownIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
                 </button>
 
                 {isQuickQueriesOpen && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 animate-fade-in-down">
+                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 animate-fade-in-down">
                     {quickQueries.map((query, idx) => (
                       <button
                         key={idx}
                         onClick={() => handleSendMessage(query.text)}
-                        className="flex items-center gap-3 p-4 bg-white border border-bordercustom rounded-xl transition-all shadow-sm group text-left h-full"
+                        className="flex items-center gap-2.5 sm:gap-3 p-3 sm:p-4 bg-white border border-bordercustom rounded-xl transition-all shadow-sm group text-left h-full"
                       >
-                        <span className="text-2xl group-hover:scale-110 transition-transform flex-shrink-0 flex items-center justify-center w-8 h-8">
+                        <span className="text-xl sm:text-2xl group-hover:scale-110 transition-transform flex-shrink-0 flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8">
                           {query.icon}
                         </span>
-                        <span className="text-sm font-medium text-maintext group-hover:text-accent">
+                        <span className="text-xs sm:text-sm font-medium text-maintext group-hover:text-accent leading-snug">
                           {query.text}
                         </span>
                       </button>
@@ -594,10 +598,10 @@ const App: React.FC = () => {
           {isLoading && (
             <div className="flex w-full justify-start mb-6">
               <div className="flex max-w-[75%] flex-row gap-3">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full overflow-hidden bg-white border border-bordercustom">
+                <div className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full overflow-hidden bg-white border border-bordercustom">
                   <img src={LOGO_URL} alt="Bot" className="w-full h-full object-cover" />
                 </div>
-                <div className="p-4 bg-secondary border border-bordercustom rounded-2xl rounded-tl-none shadow-sm">
+                <div className="p-3 sm:p-4 bg-secondary border border-bordercustom rounded-2xl rounded-tl-none shadow-sm">
                   <div className="flex space-x-1 h-full items-center">
                     <div
                       className="w-2 h-2 bg-primary/50 rounded-full animate-bounce"
@@ -621,7 +625,7 @@ const App: React.FC = () => {
         </div>
       </main>
 
-      <footer className="bg-white border-t border-bordercustom p-4 pb-6 md:p-6 z-10">
+      <footer className="bg-white border-t border-bordercustom p-2.5 pb-4 sm:p-4 sm:pb-6 md:p-6 z-10">
         <div className="max-w-4xl mx-auto relative">
           {selectedImage && (
             <div className="absolute bottom-full left-0 mb-2 p-2 bg-white rounded-xl shadow-lg border border-bordercustom animate-scale-up">
@@ -644,10 +648,10 @@ const App: React.FC = () => {
           <div className="relative flex items-center shadow-sm rounded-xl overflow-hidden border border-bordercustom focus-within:ring-2 focus-within:ring-primary focus-within:border-primary transition-all bg-white">
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="pl-3 pr-1 py-4 text-primary hover:text-accent transition-colors"
+              className="pl-2.5 sm:pl-3 pr-1 py-3 sm:py-4 text-primary hover:text-accent transition-colors"
               title="Adjuntar imagen desde galería"
             >
-              <ImageIcon className="w-6 h-6" />
+              <ImageIcon className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
             <input
               type="file"
@@ -659,10 +663,10 @@ const App: React.FC = () => {
 
             <button
               onClick={() => cameraInputRef.current?.click()}
-              className="pl-1 pr-2 py-4 text-primary hover:text-accent transition-colors"
+              className="pl-1 pr-1.5 sm:pr-2 py-3 sm:py-4 text-primary hover:text-accent transition-colors"
               title="Tomar foto con cámara"
             >
-              <CameraIcon className="w-6 h-6" />
+              <CameraIcon className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
             <input
               type="file"
@@ -675,41 +679,45 @@ const App: React.FC = () => {
 
             <button
               onClick={toggleListening}
-              className={`pl-1 pr-2 py-4 transition-colors ${
+              className={`pl-1 pr-1.5 sm:pr-2 py-3 sm:py-4 transition-colors ${
                 isListening ? "text-red-500 animate-pulse" : "text-primary hover:text-accent"
               }`}
               title={isListening ? "Detener grabación" : "Hablar con Serena"}
             >
-              <MicIcon className="w-6 h-6" />
+              <MicIcon className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
 
-            <textarea
-              className="w-full py-4 px-2 bg-white text-maintext placeholder:text-slate-400 focus:outline-none resize-none max-h-32"
-              placeholder={
-                isListening
-                  ? "Escuchando..."
-                  : selectedImage
-                  ? "Describe la imagen..."
-                  : "Cuéntame qué necesitas y en qué te podemos ayudar..."
-              }
-              rows={1}
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              onKeyDown={handleKeyDown}
-              disabled={isLoading || !hasAcceptedDisclaimer}
-            />
+<textarea
+  className="w-full py-3 sm:py-4 px-2 bg-white text-sm sm:text-base text-maintext placeholder:text-slate-400 placeholder:text-sm sm:placeholder:text-base focus:outline-none resize-none min-h-[44px] max-h-40 leading-snug overflow-y-auto"
+  placeholder={
+    isListening
+      ? "Escuchando..."
+      : selectedImage
+      ? "Describe la imagen..."
+      : "Cuéntame qué necesitas y en qué te podemos ayudar..."
+  }
+  rows={2}
+  value={inputText}
+  onChange={(e) => {
+    setInputText(e.target.value);
+    e.currentTarget.style.height = "auto";
+    e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
+  }}
+  onKeyDown={handleKeyDown}
+  disabled={isLoading || !hasAcceptedDisclaimer}
+/>
 
             <button
               onClick={() => handleSendMessage()}
               disabled={isLoading || (!inputText.trim() && !selectedImage) || !hasAcceptedDisclaimer}
-              className="pr-4 pl-2 py-4 text-accent hover:text-accent-700 disabled:text-slate-300 transition-colors"
+              className="pr-3 sm:pr-4 pl-1.5 sm:pl-2 py-3 sm:py-4 text-accent hover:text-accent-700 disabled:text-slate-300 transition-colors"
               aria-label="Enviar mensaje"
             >
-              <SendIcon className="w-6 h-6" />
+              <SendIcon className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
           </div>
 
-          <p className="text-center text-xs text-slate-400 mt-3">
+          <p className="text-center text-[10px] sm:text-xs text-slate-400 mt-2.5 sm:mt-3 leading-snug px-2">
             Serena utiliza IA y puede cometer errores. Verifica fuentes oficiales.
           </p>
         </div>
