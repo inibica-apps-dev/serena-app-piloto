@@ -308,7 +308,7 @@ export default async function handler(req: any, res: any) {
     const sanitizedHistory = sanitizeHistory(history);
 
     const completion = await client.chat.completions.create({
-      model: "llama-3.1-8b-instant",
+      model: "openai/gpt-oss-20b",
       messages: [
         { role: "system", content: SYSTEM_INSTRUCTION },
         ...sanitizedHistory,
